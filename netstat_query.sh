@@ -1,4 +1,4 @@
-tmp#!/bin/bash
+#!/bin/bash
 
 tempfile=/tmp/netstat_$(date +"%Y-%m-%d").tmp
 
