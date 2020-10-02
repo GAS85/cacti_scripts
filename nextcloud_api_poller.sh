@@ -28,10 +28,11 @@ echo "<num_shares_link_no_password>" >> $tempfile.list
 echo "<last5minutes>" >> $tempfile.list
 echo "<last1hour>" >> $tempfile.list
 echo "<last24hours>" >> $tempfile.list
+echo "<size>" >> $tempfile.list
 
 urlFull="https://$url/ocs/v2.php/apps/serverinfo/api/v1/info"
 
-curl -s -u $user:$password $urlFull > $tempfile
+curl -m 45 -s -u $user:$password $urlFull > $tempfile
 
 status=$(grep statuscode $tempfile | cut -d ">" -f 2 | cut -d "<" -f 1)
 
@@ -46,17 +47,17 @@ if [ $status == "200" ]; then
 else
 
 	echo API call error status, code is $status
-	rm $tempfile
-	rm $tempfile.list
 	rm $tempfile.output
+	rm $tempfile.list
+	rm $tempfile
 	exit 1
 
 fi
 
 cat $tempfile.output | tr '\n' ' ' |  tr -d "<" |  tr -d ">"
 
-rm $tempfile
-rm $tempfile.list
 rm $tempfile.output
+rm $tempfile.list
+rm $tempfile
 
 exit 0
